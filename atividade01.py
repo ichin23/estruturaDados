@@ -98,10 +98,11 @@ class DynamicIntArray:
             if i==self.size-1:
                 self.data[i]=0
             self.data[i]=self.data[i+1]
+        self.size -= 1
 
         if self.size <= self.capacity/4:
-            self._resize_up(self.capaxity/2)
-            print(f"⏬ Redimensionando de {self.capacity} para {new_capacity}")
+            self._resize_up(self.capacity//2)
+            print(f"⏬ Redimensionando de {self.capacity} para {self.capacity//2}")
 
         
 
@@ -111,6 +112,10 @@ class DynamicIntArray:
 
     # mesmas regras do remove_at.
 
+    def remove(self, value):
+        index = self.index_of(value)
+        if(index >=0):
+            self.remove_at(index)
 
 
     # insert_at
@@ -118,7 +123,14 @@ class DynamicIntArray:
     # com os parametros de index e valor a ser inserido.
 
     # respeitando as regras de aumento da lista.
-
+    def insert_at(self, index, value):
+        if self.size == self.capacity:
+            self._resize_up(2 * self.capacity)
+        
+        for i in range(self.size, index, -1):
+            self.data[i+1] = self.data[i]
+        self.data[index]=value
+        self.size+=1
 
 
     # index_of
